@@ -1,0 +1,174 @@
+{
+  "allow_all_zero_ip_listening": false,
+  "deploy_mode": "pd_separate",
+  "initial_dist_server_port": 10000,
+  "cluster_port": 8899,
+  "process_manager" : {
+    "to_file": true,
+    "file_path": "./logs/controller_process_status.json"
+  },
+  "cluster_status" : {
+    "to_file": true,
+    "file_path": "./logs/cluster_status_output.json"
+  },
+  "controller_backup_cfg" :{
+    "function_sw":false,
+    "database_server_dns":"etcd.default.svc.cluster.local",
+    "database_server_port":2379
+  },
+  "fault_recovery_func_dict":{
+    "lingqu_link":false
+  },
+  "global_rank_table_file_path": "./conf/global_rank_table_file.json",
+  "scaling_rule_file_path": "./conf/elastic_scaling.json",
+  "cluster_synchronization_seconds": 1,
+  "rank_table_detecting_seconds": 5,
+  "disappeared_server_waiting_seconds": 7200,
+  "default_p_rate": 0,
+  "default_d_rate": 0,
+  "is_heterogeneous": false,
+  "server_online_attempt_times": 4,
+  "server_online_wait_seconds": 5,
+  "init_role_attempt_times": 2,
+  "check_role_attempt_times": 300,
+  "check_role_wait_seconds": 5,
+  "mindie_server_control_port": 1026,
+  "mindie_server_port": 1025,
+  "mindie_server_metric_port": 1027,
+  "controller_alarm_port": 1027,
+  "mindie_ms_coordinator_port": 1026,
+  "node_manager_port": 1028,
+  "mindie_ms_coordinator_external_port": 1028,
+  "http_timeout_seconds": 5,
+  "http_retries": 3,
+  "role_decision_methods": "digs",
+  "digs_request_summary_input_length": 3000,
+  "digs_request_summary_output_length": 200,
+  "digs_model_config_path":"./conf/model_config/llama2-70B.json",
+  "digs_machine_config_path":"./conf/machine_config/800IA2.json",
+  "digs_prefill_slo": 1000,
+  "digs_decode_slo": 50,
+  "multi_node_infer_config": {
+    "multi_node_infer_enable": false,
+    "p_node_config": {
+      "enable_dist_dp_server": false,
+      "node_machine_num": 2,
+      "tp_size": 4,
+      "dp_size": 4,
+      "sp_size": 1,
+      "cp_size": 1
+    },
+    "d_node_config": {
+      "enable_dist_dp_server": false,
+      "node_machine_num": 2,
+      "tp_size": 4,
+      "dp_size": 4,
+      "sp_size": 1,
+      "cp_size": 1
+    }
+  },
+  "model_type": "llama2-70B",
+  "transfer_type": "D2DTransfer",
+  "digs_pp": 1,
+  "digs_periodic_role_decision": {
+    "auto_pd_role_switching_enable": true,
+    "role_decision_time_period": 86400,
+    "tasks_end_wait_seconds": 300
+  },
+  "http_server": {
+    "ip" : "127.0.0.1",
+    "port": 1026
+  },
+  "tls_config": {
+    "request_coordinator_tls_enable": true,
+    "request_coordinator_tls_items": {
+      "ca_cert" : "./security/request_coordinator/security/certs/ca.pem",
+      "tls_cert": "./security/request_coordinator/security/certs/cert.pem",
+      "tls_key": "./security/request_coordinator/security/keys/cert.key.pem",
+      "tls_passwd": "./security/request_coordinator/security/pass/key_pwd.txt",
+      "kmc_ksf_master": "./security/request_coordinator/tools/pmt/master/ksfa",
+      "kmc_ksf_standby": "./security/request_coordinator/tools/pmt/standby/ksfb",
+      "tls_crl": ""
+    },
+    "request_server_tls_enable": true,
+    "request_server_tls_items": {
+      "ca_cert" : "./security/request_server/security/certs/ca.pem",
+      "tls_cert": "./security/request_server/security/certs/cert.pem",
+      "tls_key": "./security/request_server/security/keys/cert.key.pem",
+      "tls_passwd": "./security/request_server/security/pass/key_pwd.txt",
+      "kmc_ksf_master": "./security/request_server/tools/pmt/master/ksfa",
+      "kmc_ksf_standby": "./security/request_server/tools/pmt/standby/ksfb",
+      "tls_crl": ""
+    },
+    "http_server_tls_enable": true,
+    "http_server_tls_items": {
+      "ca_cert" : "./security/http_server/security/certs/ca.pem",
+      "tls_cert": "./security/http_server/security/certs/cert.pem",
+      "tls_key": "./security/http_server/security/keys/cert.key.pem",
+      "tls_passwd": "./security/http_server/security/pass/key_pwd.txt",
+      "kmc_ksf_master": "./security/http_server/tools/pmt/master/ksfa",
+      "kmc_ksf_standby": "./security/http_server/tools/pmt/standby/ksfb",
+      "tls_crl": ""
+    },
+    "cluster_tls_enable": true,
+    "cluster_tls_items": {
+      "ca_cert" : "./security/cluster/security/certs/ca.pem",
+      "tls_cert": "./security/cluster/security/certs/cert.pem",
+      "tls_key": "./security/cluster/security/keys/cert.key.pem",
+      "tls_passwd": "./security/cluster/security/pass/key_pwd.txt",
+      "kmc_ksf_master": "./security/cluster/tools/pmt/master/ksfa",
+      "kmc_ksf_standby": "./security/cluster/tools/pmt/standby/ksfb",
+      "tls_crl": ""
+    },
+    "etcd_server_tls_enable": true,
+    "etcd_server_tls_items": {
+      "ca_cert" : "./security/etcd_server/security/certs/ca.pem",
+      "tls_cert": "./security/etcd_server/security/certs/cert.pem",
+      "tls_key": "./security/etcd_server/security/keys/cert.key.pem",
+      "tls_passwd": "./security/etcd_server/security/pass/key_pwd.txt",
+      "kmc_ksf_master": "./security/etcd_server/tools/pmt/master/ksfa",
+      "kmc_ksf_standby": "./security/etcd_server/tools/pmt/standby/ksfb",
+      "tls_crl": ""
+    },
+    "ccae_tls_enable": true,
+    "ccae_tls_items": {
+      "ca_cert" : "./security/ccae/security/certs/ca.pem",
+      "tls_cert": "./security/ccae/security/certs/cert.pem",
+      "tls_key": "./security/ccae/security/keys/cert.key.pem",
+      "tls_passwd": "./security/ccae/security/pass/key_pwd.txt",
+      "kmc_ksf_master": "./security/ccae/tools/pmt/master/ksfa",
+      "kmc_ksf_standby": "./security/ccae/tools/pmt/standby/ksfb",
+      "tls_crl": ""
+    },
+    "alarm_tls_enable": true,
+    "alarm_tls_items": {
+      "ca_cert" : "./security/alarm_server/security/certs/ca.pem",
+      "tls_cert": "./security/alarm_server/security/certs/cert.pem",
+      "tls_key": "./security/alarm_server/security/keys/cert.key.pem",
+      "tls_passwd": "./security/alarm_server/security/pass/key_pwd.txt",
+      "kmc_ksf_master": "./security/alarm_server/tools/pmt/master/ksfa",
+      "kmc_ksf_standby": "./security/alarm_server/tools/pmt/standby/ksfb",
+      "tls_crl": ""
+    },
+    "external_coordinator_tls_enable": true,
+    "external_coordinator_tls_items": {
+      "ca_cert" : "./security/external_coordinator/security/certs/ca.pem",
+      "tls_cert": "./security/external_coordinator/security/certs/cert.pem",
+      "tls_key": "./security/external_coordinator/security/keys/cert.key.pem",
+      "tls_passwd": "./security/external_coordinator/security/pass/key_pwd.txt",
+      "kmc_ksf_master": "./security/external_coordinator/tools/pmt/master/ksfa",
+      "kmc_ksf_standby": "./security/external_coordinator/tools/pmt/standby/ksfb",
+      "tls_crl": ""
+    }
+  },
+  "log_info": {
+    "log_level": "INFO",
+    "to_file": true,
+    "to_stdout": true,
+    "run_log_path": "./logs/ms_controller_run_log.txt",
+    "operation_log_path": "./logs/ms_controller_operation_log.txt",
+    "max_log_str_size": 8192,
+    "max_log_file_size": 20,
+    "max_log_file_num": 10
+  }
+}

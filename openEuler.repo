@@ -1,0 +1,25 @@
+[openEuler-everything]
+name=openEuler-everything
+baseurl=https://mirrors.huaweicloud.com/openeuler/openEuler-24.03-LTS-SP2/everything/aarch64/
+enabled=1
+gpgcheck=0
+gpgkey=https://mirrors.huaweicloud.com/openeuler/openEuler-24.03-LTS-SP2/everything/aarch64/RPM-GPG-KEY-openEuler
+
+[openEuler-EPOL]
+name=openEuler-epol
+baseurl=https://mirrors.huaweicloud.com/openeuler/openEuler-24.03-LTS-SP2/EPOL/main/aarch64/
+enabled=1
+gpgcheck=0
+
+[openEuler-update]
+name=openEuler-update
+baseurl=https://mirrors.huaweicloud.com/openeuler/openEuler-24.03-LTS-SP2/update/aarch64/
+enabled=1
+gpgcheck=0
+
+[oepkgs-github]
+name=OpenEuler GitHub Packages (oepkgs.net)
+baseurl=https://repo.oepkgs.net/openeuler/rpm/openEuler-24.03-LTS/github/aarch64
+enabled=1
+gpgcheck=0
+sslverify=0 

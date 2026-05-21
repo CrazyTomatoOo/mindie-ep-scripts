@@ -1,0 +1,18 @@
+{
+     "tls_enable" : true,
+     "cert": {
+          "ca_cert" : "./security/http_client/ca/ca.pem",
+          "tls_cert": "./security/http_client/certs/cert.pem",
+          "tls_key": "./security/http_client/keys/cert.key.pem",
+          "tls_passwd": "./security/http_client/pass/key_pwd.txt",
+          "kmc_ksf_master": "./tools/pmt/master/ksfa",
+          "kmc_ksf_standby": "./tools/pmt/standby/ksfb",
+          "tls_crl": ""
+     },
+     "log_info": {
+          "log_level": "INFO",
+          "to_file": false,
+          "run_log_path": "/var/log/mindie-ms/run/log.txt",
+          "operation_log_path": "/var/log/mindie-ms/operation/log.txt"
+     }
+}
