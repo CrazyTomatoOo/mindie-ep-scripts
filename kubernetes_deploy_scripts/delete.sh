@@ -21,6 +21,8 @@ kubectl delete cm python-script-gen-config-single-container -n "$NAME_SPACE";
 kubectl delete cm scaling-rule -n "$NAME_SPACE";
 kubectl delete cm server-prestop-bash-script -n "$NAME_SPACE";
 kubectl delete cm python-file-utils -n "$NAME_SPACE";
+kubectl delete cm ${NAME_SPACE}-ucconfig -n "$NAME_SPACE";
+kubectl delete cm ${NAME_SPACE}-user-config -n "$NAME_SPACE";
 
 YAML_DIR=./output/deployment
 if [ -n "$2" ]; then
