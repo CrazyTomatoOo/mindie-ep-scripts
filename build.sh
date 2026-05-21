@@ -1,9 +1,9 @@
 #!/bin/bash
-# 开启“遇到错误立即退出”的模式
+# 开启"遇到错误立即退出"的模式
 set -e
 
 # --- 配置区 ---
-PORT=8000
+PORT=9000
 IMAGE_NAME="docker.io/library/model-lite-ep-deploy:25.0.RC1-ucm"
 PROXY_URL="${http_proxy:-}"
 
@@ -19,19 +19,21 @@ trap "echo -e '\033[33m[INFO] 正在清理本地 HTTP 服务器 (PID: $SERVER_PI
 # 稍微等待1秒确保端口已成功绑定
 sleep 1
 
+# 获取宿主机实际 IP（用于 Docker 容器访问宿主机 HTTP 服务）
+HOST_IP=$(python3 -c "import socket; s=socket.socket(socket.AF_INET, socket.SOCK_DGRAM); s.connect(('8.8.8.8', 80)); print(s.getsockname()[0]); s.close()")
+echo -e "\033[32m[INFO] 检测到宿主机 IP: ${HOST_IP}\033[0m"
+
 # 缓存失效机制
 TIMESTAMP=$(date +%s)
 
 echo -e "\033[32m[INFO] 开始使用 Podman 构建镜像: ${IMAGE_NAME}\033[0m"
 
 # 关键修改：
-# 1. 移除 --add-host host.docker.internal:host-gateway
-# 2. 增加 --network host
-# 3. 将 SOURCE_URL 修改为 localhost
+# 1. 使用宿主机实际 IP 替代 localhost（Docker 容器内 localhost 指向容器自身）
+# 2. 移除 --network host（macOS Docker Desktop 不支持）
 docker buildx build \
     --platform linux/arm64 \
-    --network host \
-    --build-arg SOURCE_URL="http://localhost:${PORT}" \
+    --build-arg SOURCE_URL="http://${HOST_IP}:${PORT}" \
     --build-arg PROXY="${PROXY_URL}" \
     --build-arg CACHE_BUST="${TIMESTAMP}" \
     -t ${IMAGE_NAME} \
