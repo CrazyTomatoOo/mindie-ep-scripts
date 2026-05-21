@@ -143,8 +143,9 @@
       "tokenizerProcessNumber": 1,
       "multiNodesInferEnabled": true,
       "kvPoolConfig": {
-        "backend": "",
-        "configPath": ""
+        "backend": "unifiedcache",
+        "configPath": "/mnt/kvcache/ucconfig.json",
+        "asyncWrite": true
       },
       "ModelDeployConfig": {
         "maxSeqLen": 2560,

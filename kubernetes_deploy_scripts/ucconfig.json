@@ -1,0 +1,15 @@
+{
+    "backend": "Unified Cache",
+    "storage_backends": ["/home/kvcache/data"],
+    "mindie_config_path": "/mnt/kvcache/user_config.json",
+    "cache_buffer_capacity_gb": 32,
+    "uid_timeout_s" : 1000,
+    "kvcs_instance_name": "default_instance",
+    "kvcs_store_id": 0,
+    "kvcs_tls_enable": false,
+    "kvcs_ucm_over_tcp_ip_list": "127.0.0.1",
+    "kvcs_block_size": 128,
+    "kvcs_sliding_window_size": 100,
+    "kvcs_failure_rate_threshold": 10,
+    "kvcs_consecutive_fail_limit": 5
+}

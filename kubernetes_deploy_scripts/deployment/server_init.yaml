@@ -195,6 +195,14 @@ spec:
                 readOnly: true
               - name: models
                 mountPath: /mnt/remote
+              - name: kvcache
+                mountPath: /mnt/kvcache
+              - name: ucconfig
+                mountPath: /mnt/kvcache/ucconfig.json
+                subPath: ucconfig.json
+              - name: user-config
+                mountPath: /mnt/kvcache/user_config.json
+                subPath: user_config.json
           volumes:
           - name: data
             hostPath:
@@ -263,6 +271,17 @@ spec:
           - name: models
             persistentVolumeClaim:
               claimName: models
+          - name: kvcache
+            persistentVolumeClaim:
+              claimName: kvcache
+          - name: ucconfig
+            configMap:
+              name: ucconfig
+              defaultMode: 0640
+          - name: user-config
+            configMap:
+              name: user-config
+              defaultMode: 0640
     Worker:
       replicas: 0           # server的副本数, 多容器场景下使用
       restartPolicy: Never
@@ -410,6 +429,14 @@ spec:
                 readOnly: true
               - name: models
                 mountPath: /mnt/remote
+              - name: kvcache
+                mountPath: /mnt/kvcache
+              - name: ucconfig
+                mountPath: /mnt/kvcache/ucconfig.json
+                subPath: ucconfig.json
+              - name: user-config
+                mountPath: /mnt/kvcache/user_config.json
+                subPath: user_config.json
           volumes:
           - name: data
             hostPath:
@@ -478,3 +505,14 @@ spec:
           - name: models
             persistentVolumeClaim:
               claimName: models
+          - name: kvcache
+            persistentVolumeClaim:
+              claimName: kvcache
+          - name: ucconfig
+            configMap:
+              name: ucconfig
+              defaultMode: 0640
+          - name: user-config
+            configMap:
+              name: user-config
+              defaultMode: 0640

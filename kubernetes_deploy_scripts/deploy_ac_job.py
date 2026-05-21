@@ -668,7 +668,73 @@ def modify_server_yaml_mind_v1(data, config, index, pd_flag, ext):
     # modify_weight_mount_path(config, data)
     modify_replica_num(data, ext["single_instance_pod_num"])
     modify_sp_block_num(data, pd_flag, config)
+    modify_server_uc_config_mount(data, config)
 
+def modify_server_uc_config_mount(data, config):
+    """
+    添加 ucconfig.json 和 user_config.json 的 ConfigMap 挂载到 server YAML
+    """
+    job_id = config[CONFIG_JOB_ID]
+    ucconfig_name = f"{job_id}-ucconfig"
+    user_config_name = f"{job_id}-user-config"
+    ucconfig_mount_path = "/mnt/kvcache/ucconfig.json"
+    user_config_mount_path = "/mnt/kvcache/user_config.json"
+    # Master volumeMounts
+    master_volume_mounts = data[SPEC][REPLICA_SPECS][MASTER][TEMPLATE][SPEC][CONTAINERS][0][VOLUME_MOUNTS]
+    master_volume_mounts.append(CommentedMap([
+        (NAME_KEY, ucconfig_name),
+        (MOUNT_PATH, ucconfig_mount_path),
+        ("subPath", "ucconfig.json")
+    ]))
+    master_volume_mounts.append(CommentedMap([
+        (NAME_KEY, user_config_name),
+        (MOUNT_PATH, user_config_mount_path),
+        ("subPath", "user_config.json")
+    ]))
+    # Worker volumeMounts
+    worker_volume_mounts = data[SPEC][REPLICA_SPECS][WORKER][TEMPLATE][SPEC][CONTAINERS][0][VOLUME_MOUNTS]
+    worker_volume_mounts.append(CommentedMap([
+        (NAME_KEY, ucconfig_name),
+        (MOUNT_PATH, ucconfig_mount_path),
+        ("subPath", "ucconfig.json")
+    ]))
+    worker_volume_mounts.append(CommentedMap([
+        (NAME_KEY, user_config_name),
+        (MOUNT_PATH, user_config_mount_path),
+        ("subPath", "user_config.json")
+    ]))
+    # Master volumes
+    master_volumes = data[SPEC][REPLICA_SPECS][MASTER][TEMPLATE][SPEC][VOLUMES]
+    master_volumes.append(CommentedMap([
+        (NAME_KEY, ucconfig_name),
+        (CONFIG_MAP, CommentedMap([
+            (NAME, ucconfig_name),
+            ("defaultMode", 0o640)
+        ]))
+    ]))
+    master_volumes.append(CommentedMap([
+        (NAME_KEY, user_config_name),
+        (CONFIG_MAP, CommentedMap([
+            (NAME, user_config_name),
+            ("defaultMode", 0o640)
+        ]))
+    ]))
+    # Worker volumes
+    worker_volumes = data[SPEC][REPLICA_SPECS][WORKER][TEMPLATE][SPEC][VOLUMES]
+    worker_volumes.append(CommentedMap([
+        (NAME_KEY, ucconfig_name),
+        (CONFIG_MAP, CommentedMap([
+            (NAME, ucconfig_name),
+            ("defaultMode", 0o640)
+        ]))
+    ]))
+    worker_volumes.append(CommentedMap([
+        (NAME_KEY, user_config_name),
+        (CONFIG_MAP, CommentedMap([
+            (NAME, user_config_name),
+            ("defaultMode", 0o640)
+        ]))
+    ]))
 
 def modify_sp_block_num(data, pd_flag, config):
     if HARDWARE_TYPE not in config or config[HARDWARE_TYPE] == "800I_A2":
@@ -1040,7 +1106,7 @@ def write_json_data(data, json_path):
         json.dump(data, r, indent=4, ensure_ascii=False)
 
 
-def exec_cm_create_kubectl_multi(deploy_config, out_path):
+def exec_cm_create_kubectl_multi(deploy_config, out_path, user_config_path):
     job_id = deploy_config[CONFIG_JOB_ID]
     out_conf_path = os.path.join(out_path, 'conf')
     logging.info("Starting to execute kubectl create configmap multi")
@@ -1071,6 +1137,8 @@ def exec_cm_create_kubectl_multi(deploy_config, out_path):
                                  from_file=os.path.join(str(out_path), "elastic_scaling.json"), namespace=job_id)
     safe_kubectl_create_configmap("python-script-gen-config-single-container",
                                  from_file="./boot_helper/gen_config_single_container.py", namespace=job_id)
+    safe_kubectl_create_configmap(f"{job_id}-ucconfig", from_file="./ucconfig.json", namespace=job_id)
+    safe_kubectl_create_configmap(f"{job_id}-user-config", from_file=user_config_path, namespace=job_id)
 
 
 def exec_cm_elastic_kubectl(deploy_config, out_path):
@@ -1155,7 +1223,7 @@ def exec_all_kubectl_multi(deploy_config, out_path, user_config_path, model_id):
     out_conf_path = os.path.join(out_path, 'conf')
     out_deploy_yaml_path = os.path.join(out_path, 'deployment')
     if is_first_run(deploy_config):
-        exec_cm_create_kubectl_multi(deploy_config, out_path)
+        exec_cm_create_kubectl_multi(deploy_config, out_path, user_config_path)
         logging.info("Starting to execute kubectl create controller and coordinator")
         safe_kubectl_apply(os.path.join(out_deploy_yaml_path,
                                         "mindie_ms_coordinator.yaml"), deploy_config[CONFIG_JOB_ID])

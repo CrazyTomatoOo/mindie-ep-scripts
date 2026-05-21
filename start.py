@@ -23,6 +23,7 @@ import argparse
 import subprocess
 import time
 import atexit
+import shutil
 from typing import Any, Dict, Optional, Union
 from collections import deque
 from jsonpath_ng import parse
@@ -47,6 +48,8 @@ DEFAULT_CONFIG = {
     "ENV_MAPPING_FILE": "/home/modellite/scripts/env_mapping.json",
     "TLS_ENABLE": "false",
     "DEPLOY_MOUNT_PATH": "{}",
+    "UCCONFIG_SOURCE": "/home/modellite/conf/ucconfig.json",
+    "UCCONFIG_DEST": "/home/modellite/kubernetes_deploy_scripts/ucconfig.json",
 }
 
 # 安全限制
@@ -303,6 +306,17 @@ def main(args: argparse.Namespace) -> int:
 
         # 2. 加载基础配置
         base_config = ConfigManager.safe_json_load(args.base_file)
+        # 2.5 拷贝 ucconfig.json 到部署脚本目录
+        ucconfig_source = config.get("UCCONFIG_SOURCE")
+        ucconfig_dest = config.get("UCCONFIG_DEST")
+        if ucconfig_source and os.path.exists(ucconfig_source):
+            try:
+                shutil.copy2(ucconfig_source, ucconfig_dest)
+                logger.info(f"Copied ucconfig.json from {ucconfig_source} to {ucconfig_dest}")
+            except Exception as e:
+                logger.warning(f"Failed to copy ucconfig.json: {e}")
+        else:
+            logger.info(f"ucconfig.json not found at {ucconfig_source}, skipping copy")
 
         # 3. 加载映射配置
         try:
