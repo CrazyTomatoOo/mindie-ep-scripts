@@ -198,10 +198,10 @@ spec:
               - name: kvcache
                 mountPath: /mnt/kvcache
               - name: ucconfig
-                mountPath: /mnt/kvcache/ucconfig.json
+                mountPath: /mnt/kvcache_config/ucconfig.json
                 subPath: ucconfig.json
               - name: user-config
-                mountPath: /mnt/kvcache/user_config.json
+                mountPath: /mnt/kvcache_config/user_config.json
                 subPath: user_config.json
           volumes:
           - name: data
@@ -432,10 +432,10 @@ spec:
               - name: kvcache
                 mountPath: /mnt/kvcache
               - name: ucconfig
-                mountPath: /mnt/kvcache/ucconfig.json
+                mountPath: /mnt/kvcache_config/ucconfig.json
                 subPath: ucconfig.json
               - name: user-config
-                mountPath: /mnt/kvcache/user_config.json
+                mountPath: /mnt/kvcache_config/user_config.json
                 subPath: user_config.json
           volumes:
           - name: data

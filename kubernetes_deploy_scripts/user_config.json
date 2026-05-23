@@ -144,7 +144,7 @@
       "multiNodesInferEnabled": true,
       "kvPoolConfig": {
         "backend": "unifiedcache",
-        "configPath": "/mnt/kvcache/ucconfig.json",
+        "configPath": "/mnt/kvcache_config/ucconfig.json",
         "asyncWrite": true
       },
       "ModelDeployConfig": {
