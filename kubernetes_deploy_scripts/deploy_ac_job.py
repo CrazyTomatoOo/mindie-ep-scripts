@@ -677,8 +677,8 @@ def modify_server_uc_config_mount(data, config):
     job_id = config[CONFIG_JOB_ID]
     ucconfig_name = f"{job_id}-ucconfig"
     user_config_name = f"{job_id}-user-config"
-    ucconfig_mount_path = "/mnt/kvcache/ucconfig.json"
-    user_config_mount_path = "/mnt/kvcache/user_config.json"
+    ucconfig_mount_path = "/mnt/kvcache_config/ucconfig.json"
+    user_config_mount_path = "/mnt/kvcache_config/user_config.json"
     # Master volumeMounts
     master_volume_mounts = data[SPEC][REPLICA_SPECS][MASTER][TEMPLATE][SPEC][CONTAINERS][0][VOLUME_MOUNTS]
     master_volume_mounts.append(CommentedMap([
