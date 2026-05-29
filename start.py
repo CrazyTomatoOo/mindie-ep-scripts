@@ -331,9 +331,11 @@ def main(args: argparse.Namespace) -> int:
         merged_config = ConfigManager.apply_env_mappings(base_config, mappings, config, args.strict)
 
         # 5. 保存结果
-        with open(args.output, 'w') as f:
+        # 使用 OUTPUT_USER_CONFIG 作为默认输出路径，确保 deploy_ac_job.py 能读取到包含环境变量映射的配置
+        output_path = config["OUTPUT_USER_CONFIG"] if args.output == "merged.json" else args.output
+        with open(output_path, 'w') as f:
             json.dump(merged_config, f, indent=2)
-        logger.info(f"Config saved to {args.output}")
+        logger.info(f"Config saved to {output_path}")
 
         # 6. 执行部署
         if args.execute:
