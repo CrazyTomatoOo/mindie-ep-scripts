@@ -1,5 +1,4 @@
 {
-  "$.deploy_config.image_name": "IMAGE_NAME",
   "$.deploy_config.job_id": "NAMESPACE",
   "$.deploy_config.mindie_env_path": "MINDIE_ENV_FILE",
   "$.deploy_config.mindie_host_log_path": "LOG_PATH",

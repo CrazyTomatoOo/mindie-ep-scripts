@@ -37,7 +37,6 @@ DEFAULT_CONFIG = {
     "POD_IP": "127.0.0.1",
     "EXPERT_MAP_FILE": "",
     "MODEL_WEIGHT_PATH": "/mnt/remote/models",
-    "IMAGE_NAME": "mindie-ucm-me:25.5.0",
     "MINDIE_ENV_FILE": "/home/modellite/conf/mindie_env.json",
     "INPUT_USER_CONFIG": "/home/modellite/conf/user_config.json",
     "OUTPUT_USER_CONFIG": "/home/modellite/kubernetes_deploy_scripts/user_config.json",
