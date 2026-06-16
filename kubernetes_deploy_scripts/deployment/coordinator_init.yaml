@@ -190,6 +190,10 @@ spec:
       protocol: TCP
       targetPort: 1025
       name: probe
+    - port: 9982
+      protocol: TCP
+      targetPort: 1025
+      name: router
   selector:
     app: mindie-ms-coordinator
   sessionAffinity: None
