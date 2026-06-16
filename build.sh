@@ -4,7 +4,7 @@ set -e
 
 # --- 配置区 ---
 PORT=8000
-IMAGE_NAME="docker.io/library/model-lite-ep-deploy:24.3.0"
+IMAGE_NAME="docker.io/library/model-lite-ep-deploy:25.0.RC1"
 PROXY_URL="${http_proxy:-}"
 
 echo -e "\033[32m[INFO] 正在启动本地 HTTP 下载服务器 (端口: $PORT)...\033[0m"
