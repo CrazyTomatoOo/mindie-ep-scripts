@@ -193,7 +193,7 @@ spec:
     - port: 9982
       protocol: TCP
       targetPort: 1025
-      name: probe
+      name: router
   selector:
     app: mindie-ms-coordinator
   sessionAffinity: None
